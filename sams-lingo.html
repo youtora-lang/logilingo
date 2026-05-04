@@ -7,11 +7,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="logilingo">
-<link rel="apple-touch-icon" href="https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png">
-<link rel="icon" type="image/png" href="https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png">
-<link rel="shortcut icon" href="https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="logilingo">
+<link rel="apple-touch-icon" href="https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png">
+<link rel="icon" type="image/png" href="https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png">
+<link rel="shortcut icon" href="https://youtora-lang.github.io/logilingo/golden_favicon.ico">
+<link rel="manifest" href="https://youtora-lang.github.io/logilingo/manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -704,7 +705,7 @@ function switchTab(name) {
 }
 
 // FLASHCARD
-function updateFlashcardContent() {
+function renderFlashcard() {
   const p = phrases[fcIndex];
   document.getElementById('fc-situation').textContent = p.emoji + '  ' + p.situation;
   document.getElementById('fc-jp').textContent = p.jp;
@@ -714,16 +715,15 @@ function updateFlashcardContent() {
   document.getElementById('fc-num').textContent = fcIndex + 1;
   document.getElementById('fc-total').textContent = phrases.length;
   document.getElementById('fc-progress').style.width = ((fcIndex+1)/phrases.length*100) + '%';
+
   const bonusTag = document.getElementById('fc-bonus-tag');
   if (p.bonus) bonusTag.classList.remove('hidden');
   else bonusTag.classList.add('hidden');
-}
 
-function renderFlashcard() {
+  // reset flip
   const card = document.getElementById('flashcard');
   card.classList.remove('flipped');
   fcFlipped = false;
-  updateFlashcardContent();
 }
 
 function flipCard() {
@@ -733,36 +733,16 @@ function flipCard() {
 }
 
 function nextCard() {
-  const card = document.getElementById('flashcard');
-  const back = card.querySelector('.card-back');
-  card.classList.add('flipped');
-  setTimeout(() => {
-    // Hide back face while updating content
-    back.style.visibility = 'hidden';
-    fcIndex = (fcIndex + 1) % phrases.length;
-    updateFlashcardContent();
-    fcFlipped = false;
-    card.classList.remove('flipped');
-    setTimeout(() => { back.style.visibility = 'visible'; }, 620);
-  }, 310);
+  fcIndex = (fcIndex + 1) % phrases.length;
+  renderFlashcard();
 }
 
 function prevCard() {
-  const card = document.getElementById('flashcard');
-  const back = card.querySelector('.card-back');
-  card.classList.add('flipped');
-  setTimeout(() => {
-    back.style.visibility = 'hidden';
-    fcIndex = (fcIndex - 1 + phrases.length) % phrases.length;
-    updateFlashcardContent();
-    fcFlipped = false;
-    card.classList.remove('flipped');
-    setTimeout(() => { back.style.visibility = 'visible'; }, 620);
-  }, 310);
+  fcIndex = (fcIndex - 1 + phrases.length) % phrases.length;
+  renderFlashcard();
 }
 
-// Initial load - show content immediately without animation delay
-updateFlashcardContent();
+renderFlashcard();
 
 // QUIZ
 function shuffle(arr) {

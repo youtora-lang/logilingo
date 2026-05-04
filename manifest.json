@@ -1,0 +1,20 @@
+{
+  "name": "logilingo",
+  "short_name": "logilingo",
+  "start_url": "./sams-lingo.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": [
+    {
+      "src": "https://youtora-lang.github.io/logilingo/golden_apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "https://youtora-lang.github.io/logilingo/golden_apple.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
